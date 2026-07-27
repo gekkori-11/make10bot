@@ -34,7 +34,9 @@ const commands = [
         .setName("formula")
         .setDescription("計算式を入力してください")
         .setRequired(true)
+        
     )
+  
 
 ];
 
@@ -177,39 +179,36 @@ if(
     .getString("formula");
 
 
-  try {
+  const response =
+    await fetch(
+      process.env.GAS_URL,
+      {
 
-    const result =
-      Function(
-        "return " + formula
-      )();
+        method:"POST",
 
+        headers:{
+          "Content-Type":"application/json"
+        },
 
-    if(
-      Math.abs(result - 10)
-      < 0.000001
-    ){
+        body:JSON.stringify({
 
-      await interaction.reply(
-        "正解"
-      );
+          action:"check",
 
-    } else {
+          formula:formula
 
-      await interaction.reply(
-        "不正解です\n答えは10になりません"
-      );
+        })
 
-    }
-
-
-  } catch(e){
-
-    await interaction.reply(
-      "計算式を確認してください"
+      }
     );
 
-  }
+
+  const data =
+    await response.json();
+
+
+  await interaction.reply(
+    data.message
+  );
 
 }
 
