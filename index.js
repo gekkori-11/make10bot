@@ -20,10 +20,23 @@ const client = new Client({
 
 
 // /make10 コマンド
-const command = new SlashCommandBuilder()
-  .setName("make10")
-  .setDescription("Make10を出題");
+const commands = [
 
+  new SlashCommandBuilder()
+    .setName("make10")
+    .setDescription("Make10問題を出します"),
+
+  new SlashCommandBuilder()
+    .setName("answer")
+    .setDescription("答えを入力します")
+    .addStringOption(option =>
+      option
+        .setName("formula")
+        .setDescription("計算式を入力してください")
+        .setRequired(true)
+    )
+
+];
 
 
 client.once("ready", async () => {
@@ -47,9 +60,8 @@ client.once("ready", async () => {
     ),
 
     {
-      body:[
-        command.toJSON()
-      ]
+      body:
+commands.map(c => c.toJSON())
     }
 
   );
@@ -82,7 +94,6 @@ async interaction => {
 
 
     await interaction.deferReply();
-
 
 
     // GASへ問題作成依頼
@@ -151,7 +162,56 @@ async interaction => {
 
   }
 
+// ====================
+// /answer
+// ====================
 
+if(
+  interaction.isChatInputCommand()
+  &&
+  interaction.commandName === "answer"
+){
+
+  const formula =
+    interaction.options
+    .getString("formula");
+
+
+  try {
+
+    const result =
+      Function(
+        "return " + formula
+      )();
+
+
+    if(
+      Math.abs(result - 10)
+      < 0.000001
+    ){
+
+      await interaction.reply(
+        "正解"
+      );
+
+    } else {
+
+      await interaction.reply(
+        "不正解です\n答えは10になりません"
+      );
+
+    }
+
+
+  } catch(e){
+
+    await interaction.reply(
+      "計算式を確認してください"
+    );
+
+  }
+
+}
 
 
   // ====================
