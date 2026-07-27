@@ -153,7 +153,7 @@ async interaction => {
     await interaction.editReply({
 
   content:
-    (data.numbers || ["エラー"]).join("  ")
+    (data.numbers || ["エラー"]).join("  "),
 
   components:[
     row
