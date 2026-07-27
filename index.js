@@ -275,10 +275,10 @@ if(
 
         content:
 
-        "**答え**\n" +
+        "**結果**\n" +
 
         "```" +
-        data.answer +
+        data.message +
         "```",
 
 
