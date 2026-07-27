@@ -124,8 +124,8 @@ async interaction => {
 
     const data =
       await response.json();
-
-
+    
+    console.log(data);
 
     const button =
       new ButtonBuilder()
@@ -153,7 +153,7 @@ async interaction => {
     await interaction.editReply({
 
   content:
-    data.numbers.join("  "),
+    (data.numbers || ["エラー"]).join("  ")
 
   components:[
     row
