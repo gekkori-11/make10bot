@@ -22,7 +22,7 @@ const client = new Client({
 // /make10 コマンド
 const command = new SlashCommandBuilder()
   .setName("make10")
-  .setDescription("Make10問題を出します");
+  .setDescription("Make10を出題");
 
 
 
