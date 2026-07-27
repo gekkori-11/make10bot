@@ -140,7 +140,6 @@ async interaction => {
     await interaction.editReply({
 
   content:
-    "**Make10**\n\n" +
     data.numbers.join("  "),
 
   components:[
